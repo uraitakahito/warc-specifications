@@ -39,7 +39,9 @@ We are in the early staged of working out how best to develop these standards an
 
 {% assign ja_pages = site.pages | where: "lang", "ja" | sort: "title" %}
 {% if ja_pages.size > 0 %}
-### Japanese translations（日本語訳） ###
+{%- comment -%} 目次（_includes/_toc.md）は Liquid を通す前の Markdown から作るので、Markdown の見出しにすると
+日本語の頁が 0 でも目次に載る。HTML の見出しにして目次から外す {%- endcomment -%}
+<h3 id="japanese-translations">Japanese translations（日本語訳）</h3>
 
 Unofficial Japanese translations maintained in this fork. The original text prevails where they differ.
 この fork が持つ非公式の日本語訳です。原文と食い違うときは原文が優先します。
