@@ -32,3 +32,10 @@ jobs:
           name: site
           path: _site
           retention-days: 14
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - name: 検査の試験
+        run: npm test
+      - name: 日本語の頁を、元の英語の頁と並べて検査する（scripts/check-ja.mjs）
+        run: npm run check

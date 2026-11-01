@@ -1,0 +1,17 @@
+{
+  "//": [
+    "日本語の頁の検査（`scripts/check-ja.mjs`）を回すためだけの package。依存は持たない。",
+    "サイトには出さない（`_config.yml` の exclude）。CI（`.github/workflows/build.yml`）は、",
+    "GitHub Pages と同じ組み立てで建てた _site に対して npm run check を回す。"
+  ],
+  "name": "warc-specifications-ja",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "test": "node --test scripts/check-ja.test.mjs",
+    "check": "node scripts/check-ja.mjs _site"
+  }
+}
