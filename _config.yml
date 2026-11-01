@@ -16,7 +16,11 @@ defaults:
 
 exclude:
 - "*/Makefile"
+# 訳の検査と決まりの文書は、サイトに出さない
+- scripts
+- package.json
+- TRANSLATING.ja.md
 
-gems:
+plugins:
   - jekyll-redirect-from
 
