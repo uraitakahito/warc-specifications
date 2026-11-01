@@ -30,12 +30,26 @@ We are in the early staged of working out how best to develop these standards an
 {% assign sorted_pages = site.pages | sort:"title" %}
 
 <ul>
-{% for page in sorted_pages %}
-{% if page.status %}
-<li><a href="{{ site.baseurl }}{{ page.url }}">{{ page.title }}{% if page.version %} {{ page.version }}{% endif %}</a> <span class="badge spec-badge-status-{{ page.status }}">{{ page.status }}</span></li>
+{% for p in sorted_pages %}
+{% if p.status and p.lang != "ja" %}
+<li><a href="{{ site.baseurl }}{{ p.url }}">{{ p.title }}{% if p.version %} {{ p.version }}{% endif %}</a> <span class="badge spec-badge-status-{{ p.status }}">{{ p.status }}</span></li>
 {% endif %}
 {% endfor %}
 </ul>
+
+{% assign ja_pages = site.pages | where: "lang", "ja" | sort: "title" %}
+{% if ja_pages.size > 0 %}
+### Japanese translations（日本語訳） ###
+
+Unofficial Japanese translations maintained in this fork. The original text prevails where they differ.
+この fork が持つ非公式の日本語訳です。原文と食い違うときは原文が優先します。
+
+<ul>
+{% for p in ja_pages %}
+<li lang="ja"><a href="{{ site.baseurl }}{{ p.url }}">{{ p.title }}{% if p.version %} {{ p.version }}{% endif %}</a></li>
+{% endfor %}
+</ul>
+{% endif %}
 
 Specification Status
 --------------------
