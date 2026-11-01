@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+{%- comment -%} 頁の言語（既定は en）と、画面の文言（_data/i18n.yml） {%- endcomment -%}
+{%- assign lang = page.lang | default: "en" -%}
+{%- assign t = site.data.i18n[lang] -%}
+<html lang="{{ lang }}">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -44,50 +47,63 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="{{ site.baseurl }}/">Home</a></li>
+            <li class="active"><a href="{{ site.baseurl }}/">{{ t.home }}</a></li>
             <li class="dropdown">
-             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Specifications <span class="caret"></span></a>
+             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ t.specifications }} <span class="caret"></span></a>
              <ul class="dropdown-menu" role="menu">
 {% assign sorted_pages = site.pages | sort:"title" %}
-{% for page in sorted_pages %}
-{% if page.status %}
-<li><a href="{{ site.baseurl }}{{ page.url }}">{{ page.title }}{% if page.version %} {{ page.version }}{% endif %}&nbsp;<span class="badge spec-badge-status-{{ page.status }}">{{ page.status }}</span></a></li>
+{% for p in sorted_pages %}
+{% if p.status and p.lang != "ja" %}
+{% assign p_ja = site.pages | where: "translation_of", p.url | first %}
+<li><a href="{{ site.baseurl }}{{ p.url }}">{{ p.title }}{% if p.version %} {{ p.version }}{% endif %}&nbsp;<span class="badge spec-badge-status-{{ p.status }}">{{ p.status }}</span>{% if p_ja %}&nbsp;<span class="badge spec-badge-lang-ja">{{ t.japanese_badge }}</span>{% endif %}</a></li>
 {% endif %}
 {% endfor %}
              </ul>
             </li>
             <li class="dropdown">
-             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Primers <span class="caret"></span></a>
+             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ t.primers }} <span class="caret"></span></a>
              <ul class="dropdown-menu" role="menu">
-{% for page in sorted_pages %}
-{% if page.type == "primer" %}
-<li><a href="{{ site.baseurl }}{{ page.url }}">{{ page.title }}{% if page.version %} {{ page.version }}{% endif %}</a></li>
+{% for p in sorted_pages %}
+{% if p.type == "primer" and p.lang != "ja" %}
+<li><a href="{{ site.baseurl }}{{ p.url }}">{{ p.title }}{% if p.version %} {{ p.version }}{% endif %}</a></li>
 {% endif %}
 {% endfor %}
              </ul>
             </li>
             <li class="dropdown">
-             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Guidelines <span class="caret"></span></a>
+             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ t.guidelines }} <span class="caret"></span></a>
              <ul class="dropdown-menu" role="menu">
-{% for page in sorted_pages %}
-{% if page.type == "guidelines" %}
-<li><a href="{{ site.baseurl }}{{ page.url }}">{{ page.title }}{% if page.version %} {{ page.version }}{% endif %}</a></li>
+{% for p in sorted_pages %}
+{% if p.type == "guidelines" and p.lang != "ja" %}
+<li><a href="{{ site.baseurl }}{{ p.url }}">{{ p.title }}{% if p.version %} {{ p.version }}{% endif %}</a></li>
 {% endif %}
 {% endfor %}
              </ul>
             </li>
             <li class="dropdown">
-             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Contribute <span class="caret"></span></a>
+             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ t.contribute }} <span class="caret"></span></a>
              <ul class="dropdown-menu" role="menu">
-              <li><a href="{{ site.baseurl }}/#how-to-contribute">How to contribute</a></li>
+              <li><a href="{{ site.baseurl }}/#how-to-contribute">{{ t.how_to_contribute }}</a></li>
               <li class="divider"></li>
-              <li><a href="{{ site.github_repository }}/issues">Issues</a></li>
-              <li><a href="{{ site.github_repository }}/pulls">Pull Requests</a></li>
+              <li><a href="{{ site.github_repository }}/issues">{{ t.issues }}</a></li>
+              <li><a href="{{ site.github_repository }}/pulls">{{ t.pull_requests }}</a></li>
               <li class="divider"></li>
-              <li><a href="{{ site.github_repository }}">GitHub Homepage</a></li>
+              <li><a href="{{ site.github_repository }}">{{ t.github_homepage }}</a></li>
              </ul>
             </li>
           </ul>
+{% assign switch_url = nil %}
+{% if page.translation_of %}
+{% assign switch_url = page.translation_of %}
+{% else %}
+{% assign page_ja = site.pages | where: "translation_of", page.url | first %}
+{% if page_ja %}{% assign switch_url = page_ja.url %}{% endif %}
+{% endif %}
+{% if switch_url %}
+          <ul class="nav navbar-nav navbar-right">
+            <li><a class="lang-switch" href="{{ site.baseurl }}{{ switch_url }}" hreflang="{% if lang == "ja" %}en{% else %}ja{% endif %}" lang="{% if lang == "ja" %}en{% else %}ja{% endif %}">{{ t.switch_to }}</a></li>
+          </ul>
+{% endif %}
         </div><!--/.nav-collapse -->
       </div>
     </nav>
@@ -101,11 +117,11 @@
         <a href="{{ site.github_repository }}/labels/{{ page.version-of }}"><span class="glyphicon glyphicon-tags"></span></a>&nbsp;
         {% endif %}
         <a href="{{ site.github_repository }}/blob/{{ site.reference_branch }}/{{ page.path }}"
-title="View this document on GitHub."><span class="glyphicon glyphicon-eye-open"></span></a>
+title="{{ t.view_on_github }}"><span class="glyphicon glyphicon-eye-open"></span></a>
         <a href="{{ site.github_repository }}/edit/{{ site.reference_branch }}/{{ page.path }}"
-title="Edit this document on GitHub."><span class="glyphicon glyphicon-pencil"></span></a>
+title="{{ t.edit_on_github }}"><span class="glyphicon glyphicon-pencil"></span></a>
       </span>
-{{ page.status | capitalize }}
+{{ t.status[page.status] | default: page.status | capitalize }}
 <div class="clearfix"></div>
 </div>
 {% endif %}
@@ -122,9 +138,9 @@ title="Edit this document on GitHub."><span class="glyphicon glyphicon-pencil"><
 {% if page.status == None %}
       <span class="pull-right" id="edit_button">
         <a href="{{ site.github_repository }}/blob/{{ site.reference_branch }}/{{ page.path }}"
-title="View this document on GitHub."><span class="glyphicon glyphicon-eye-open"></span></a>
+title="{{ t.view_on_github }}"><span class="glyphicon glyphicon-eye-open"></span></a>
         <a href="{{ site.github_repository }}/edit/{{ site.reference_branch }}/{{ page.path }}"
-title="Edit this document on GitHub."><span class="glyphicon glyphicon-pencil"></span></a>
+title="{{ t.edit_on_github }}"><span class="glyphicon glyphicon-pencil"></span></a>
       </span>
 {% endif %}
 <h1 class="nocount">{{ page.title }}{%if page.version %} {{ page.version }}{% endif %}</h1>
@@ -148,7 +164,7 @@ title="Edit this document on GitHub."><span class="glyphicon glyphicon-pencil"><
     
 {% if page.status %}
 <div class="spec-status spec-status-{{ page.status }}">
-{{ page.status | capitalize }}
+{{ t.status[page.status] | default: page.status | capitalize }}
 </div>
 {% endif %}
 
@@ -158,11 +174,15 @@ title="Edit this document on GitHub."><span class="glyphicon glyphicon-pencil"><
         <a href="{{ site.github_repository }}/labels/{{ page.version-of }}"><span class="glyphicon glyphicon-tags"></span></a>
         {% endif %}
         <a href="{{ site.github_repository }}/blob/{{ site.reference_branch }}/{{ page.path }}"
-title="View this document on GitHub."><span class="glyphicon glyphicon-eye-open"></span></a>
+title="{{ t.view_on_github }}"><span class="glyphicon glyphicon-eye-open"></span></a>
         <a href="{{ site.github_repository }}/edit/{{ site.reference_branch }}/{{ page.path }}"
-title="Edit this document on GitHub."><span class="glyphicon glyphicon-pencil"></span></a>
+title="{{ t.edit_on_github }}"><span class="glyphicon glyphicon-pencil"></span></a>
       </span>
-        This project is maintained by members of the <a href="http://netpreserve.org/">IIPC</a>.
+{% if lang == "ja" %}
+        原文は <a href="http://netpreserve.org/">IIPC</a> のメンバーが保守しています。この日本語の頁は <a href="{{ site.github_repository }}">uraitakahito/warc-specifications</a> の非公式訳です。原文と食い違うときは原文が優先します。
+{% else %}
+        This project is maintained by members of the <a href="http://netpreserve.org/">IIPC</a>. This copy is served from the fork <a href="{{ site.github_repository }}">uraitakahito/warc-specifications</a> (upstream: <a href="{{ site.upstream_repository }}">iipc/warc-specifications</a>).
+{% endif %}
       </footer>
     </div><!-- /.container -->
 
@@ -174,6 +194,12 @@ title="Edit this document on GitHub."><span class="glyphicon glyphicon-pencil"><
     <script src="{{site.baseurl}}/assets/bootstrap/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="{{site.baseurl}}/assets/bootstrap/js/ie10-viewport-bug-workaround.js"></script>
+    <script>
+      // 言語を切り替えるとき、いま見ている節（#…）を持って行く。英日の頁は見出しの id が同じ
+      document.querySelectorAll("a.lang-switch").forEach(function (a) {
+        a.addEventListener("click", function () { a.hash = location.hash; });
+      });
+    </script>
   </body>
 </html>
 

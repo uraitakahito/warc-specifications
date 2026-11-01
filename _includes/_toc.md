@@ -1,7 +1,7 @@
   <div class="panel panel-default" id="toc_panel">
     <div class="panel-heading">
       <h3 class="panel-title nocount">
-        Contents
+        {{ t.contents }}
       </h3>
     </div>
     <div class="panel-body">

@@ -1,0 +1,61 @@
+# 画面の文言。layout が頁の lang（既定は en。_config.yml の defaults）で引く。
+# 頁の本文ではなく、メニュー・横の欄・足元の文だけをここに置く。
+en:
+  home: Home
+  specifications: Specifications
+  primers: Primers
+  guidelines: Guidelines
+  contribute: Contribute
+  how_to_contribute: How to contribute
+  issues: Issues
+  pull_requests: Pull Requests
+  github_homepage: GitHub Homepage
+  about: About
+  title: Title
+  latest_version: Latest version
+  see_version: See version
+  this_is_latest: This is the latest version
+  previous_version: Previous version
+  none: None
+  view_issues: View issues on GitHub
+  contents: Contents
+  open_issues: Open Issues
+  view_on_github: View this document on GitHub.
+  edit_on_github: Edit this document on GitHub.
+  # 言語の切り替えに出す名前は、切り替える先の言語で書く
+  switch_to: 日本語
+  japanese_badge: 日本語
+  status:
+    standard: standard
+    adopted: adopted
+    proposed: proposed
+    draft: draft
+ja:
+  home: ホーム
+  specifications: 仕様
+  primers: 入門
+  guidelines: 指針
+  contribute: 参加する
+  how_to_contribute: 参加のしかた
+  issues: 課題
+  pull_requests: Pull Request
+  github_homepage: GitHub の repo
+  about: この文書について
+  title: 題
+  latest_version: 最新の版
+  see_version: 版を見る
+  this_is_latest: これが最新の版です
+  previous_version: 前の版
+  none: なし
+  view_issues: 上流の課題を GitHub で見る
+  contents: 目次
+  open_issues: 上流の未解決の課題
+  view_on_github: この頁を GitHub で見る
+  edit_on_github: この頁を GitHub で直す
+  switch_to: English
+  japanese_badge: 日本語
+  status:
+    standard: 規格
+    adopted: 採用
+    proposed: 提案
+    draft: 草案
