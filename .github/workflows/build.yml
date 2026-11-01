@@ -1,0 +1,34 @@
+# GitHub Pages と同じ組み立て（actions/jekyll-build-pages）で _site を建て、成果物として残す。
+#
+# Pages そのものは master から標準のビルドで建つ。こちらは、PR の段階で建てた結果を
+# 確かめるための CI（手元に Jekyll は要らない）。成果物は `gh run download` で落とし、
+# serve/warc-specifications/ の下に置いて開けば baseurl のとおりに見える。
+name: build
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          # 訳の検査が source_commit を引くので、全履歴を取る
+          fetch-depth: 0
+      - name: GitHub Pages と同じ組み立てで建てる
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+      - name: 建てた _site を成果物にする
+        uses: actions/upload-artifact@v7
+        with:
+          name: site
+          path: _site
+          retention-days: 14
