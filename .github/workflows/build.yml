@@ -1,7 +1,8 @@
-# GitHub Pages と同じ組み立て（actions/jekyll-build-pages）で _site を建て、成果物として残す。
+# GitHub Pages と同じ組み立て（actions/jekyll-build-pages）で _site を建て、検査し、
+# master では、その _site をそのまま Pages に配る。
 #
-# Pages そのものは master から標準のビルドで建つ。こちらは、PR の段階で建てた結果を
-# 確かめるための CI（手元に Jekyll は要らない）。成果物は `gh run download` で落とし、
+# Pages の設定は「GitHub Actions」（build_type: workflow）。PR で確かめた組み立てと、配る組み立てが
+# 同じ物になる。PR の _site は成果物 site として残るので、`gh run download` で落とし、
 # serve/warc-specifications/ の下に置いて開けば baseurl のとおりに見える。
 name: build
 
@@ -9,6 +10,7 @@ on:
   push:
     branches: [master]
   pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -39,3 +41,26 @@ jobs:
         run: npm test
       - name: 日本語の頁を、元の英語の頁と並べて検査する（scripts/check-ja.mjs）
         run: npm run check
+      - name: Pages に配る形にする（master だけ。検査が緑のときだけここに来る）
+        if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+
+  deploy:
+    if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    steps:
+      - name: Pages に配る
+        id: deployment
+        uses: actions/deploy-pages@v5
