@@ -74,3 +74,6 @@ pre.highlight {
   /* Use same background color as bootstrap. */
   background-color: #f5f5f5;
 }
+
+/* 用語の見出しの横の「warc-byte-map で例を見る」（_data/byte_map.yml・_layouts/default.html） */
+.byte-map-link { margin-left: 0.6em; font-size: 0.6em; font-weight: normal; white-space: nowrap; }

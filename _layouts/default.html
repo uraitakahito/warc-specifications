@@ -200,6 +200,29 @@ title="{{ t.edit_on_github }}"><span class="glyphicon glyphicon-pencil"></span><
         a.addEventListener("click", function () { a.hash = location.hash; });
       });
     </script>
+{%- assign byte_map = site.data.byte_map.pages[page.url] -%}
+{%- if byte_map %}
+    <script>
+      // 用語の見出しの横に、warc-byte-map で例を開く link を足す（表は _data/byte_map.yml）。
+      // 頁の本文（Markdown）は変えずに、建てた頁の見出しに後から足す
+      (function () {
+        var viewer = {{ site.data.byte_map.viewer | jsonify }};
+        var example = {{ site.data.byte_map.example | jsonify }};
+        var links = {{ byte_map | jsonify }};
+        Object.keys(links).forEach(function (id) {
+          var heading = document.getElementById(id);
+          if (!heading) return;
+          var params = new URLSearchParams({ src: example, rec: String(links[id].rec), part: links[id].part, lang: {{ lang | jsonify }} });
+          var a = document.createElement("a");
+          a.className = "byte-map-link";
+          a.href = viewer + "#" + params.toString();
+          a.title = {{ t.byte_map_title | jsonify }};
+          a.textContent = {{ t.byte_map_link | jsonify }};
+          heading.appendChild(a);
+        });
+      })();
+    </script>
+{%- endif %}
   </body>
 </html>
 
