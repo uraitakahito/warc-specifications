@@ -41,6 +41,8 @@ jobs:
         run: npm test
       - name: 日本語の頁を、元の英語の頁と並べて検査する（scripts/check-ja.mjs）
         run: npm run check
+      - name: warc-byte-map への link の表の見出しの id が、建てた頁に在る（scripts/check-byte-map.mjs）
+        run: npm run check:byte-map
       - name: Pages に配る形にする（master だけ。検査が緑のときだけここに来る）
         if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v5

@@ -1,18 +1,31 @@
 # 頁の用語の見出しの横に、warc-byte-map で例を開く link を出すための表。
 # _layouts/default.html の終わりの script が、この表に在る頁でだけ、見出しに link を足す。
 # 英語の頁の本文（index.md）は上流のまま変えない（README の決まり）。
+# 見出しの id が頁に在るかは、CI で scripts/check-byte-map.mjs が建てた頁で確かめる。
 #
-# 鍵は頁の URL と見出しの id。値は warc-byte-map の hash の rec（record の始めの位置）と part（部分）。
+# 鍵は頁の URL と見出しの id。値の src は下の sources の名前、rec は record の始めの位置、part は部分。
 # hash の書き方は https://github.com/uraitakahito/warc-byte-map の src/viewer/hash.ts を見る。
 viewer: https://uraitakahito.github.io/warc-byte-map/
-# 例は IIPC の primer の hello-world.warc（この site の primers/ に在る。response の record は 1260 から）
-example: https://uraitakahito.github.io/warc-specifications/primers/web-archive-formats/hello-world.warc
+sources:
+  # IIPC の primer の例（WARC/1.0。この site の primers/ に在る。response の record は 1260 から）
+  hello-world: https://uraitakahito.github.io/warc-specifications/primers/web-archive-formats/hello-world.warc
+  # warc-byte-map が書いた WARC/1.1 の例（8 つの type。位置は v0.4.0 の file のもの）
+  types: https://uraitakahito.github.io/warc-byte-map/examples/types.warc
 pages:
   /specifications/warc-format/warc-1.1-annotated/:
-    warc-record: { rec: 1260, part: record }
-    warc-record-content-block: { rec: 1260, part: block }
-    warc-record-payload: { rec: 1260, part: payload }
-    warc-record-header: { rec: 1260, part: header }
-    warc-named-fields: { rec: 1260, part: line.0 }
-    warc-block-digest: { rec: 1260, part: block }
-    warc-payload-digest: { rec: 1260, part: payload }
+    warc-record: { src: hello-world, rec: 1260, part: record }
+    warc-record-content-block: { src: hello-world, rec: 1260, part: block }
+    warc-record-payload: { src: hello-world, rec: 1260, part: payload }
+    warc-record-header: { src: hello-world, rec: 1260, part: header }
+    warc-named-fields: { src: hello-world, rec: 1260, part: line.0 }
+    warc-logical-record: { src: types, rec: 4748, part: record }
+    warc-block-digest: { src: hello-world, rec: 1260, part: block }
+    warc-payload-digest: { src: hello-world, rec: 1260, part: payload }
+    warcinfo: { src: types, rec: 0, part: record }
+    response: { src: types, rec: 1309, part: record }
+    resource: { src: types, rec: 2481, part: record }
+    request: { src: types, rec: 741, part: record }
+    metadata: { src: types, rec: 2014, part: record }
+    revisit: { src: types, rec: 2929, part: record }
+    conversion: { src: types, rec: 3672, part: record }
+    continuation: { src: types, rec: 5295, part: record }

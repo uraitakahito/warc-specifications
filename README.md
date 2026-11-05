@@ -12,7 +12,7 @@
 - 頁の `lang`（既定は `en`）で、メニュー・横の欄・足元の文の言語が替わります（`_data/i18n.yml`）。
 - 日本語の頁は `lang: ja`・`translation_of`（元の英語の頁の URL）・`source_commit` を持ちます。英日の頁は互いへの切り替えのリンクを出し、切り替えるときに見ている節（`#…`）を持って移ります。
 - CI（`.github/workflows/build.yml`）が GitHub Pages と同じ組み立て（`actions/jekyll-build-pages`）で建て、`scripts/check-ja.mjs` で英日の頁を比べます（見出しの id の並び・コードの例・頁の中のリンク・訳の古さ）。建てた `_site` は成果物 `site` として残り、master では同じ `_site` を Pages に配ります（Pages の設定は「GitHub Actions」）。
-- 注釈つき WARC 1.1 の頁では、用語の見出しの横に、[warc-byte-map](https://github.com/uraitakahito/warc-byte-map) で例の bytes を開く link が出ます。表は `_data/byte_map.yml` で、layout の script が建てた頁の見出しに足します（英語の頁の本文は変えません）。
+- 注釈つき WARC 1.1 の頁では、用語の見出しの横に、[warc-byte-map](https://github.com/uraitakahito/warc-byte-map) で例の bytes を開く link が出ます。表は `_data/byte_map.yml` で、layout の script が建てた頁の見出しに足します（英語の頁の本文は変えません）。表の見出しの id が建てた頁に在るかは、CI が `scripts/check-byte-map.mjs` で確かめます。
 - PR はこの fork の中だけで出します。上流には出しません。
 
 ## English
