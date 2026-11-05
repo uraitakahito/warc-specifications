@@ -25,6 +25,9 @@ en:
   # 言語の切り替えに出す名前は、切り替える先の言語で書く
   switch_to: 日本語
   japanese_badge: 日本語
+  # 用語の見出しの横の link（_data/byte_map.yml）
+  byte_map_link: See the bytes ↗
+  byte_map_title: Open an example of this term in warc-byte-map
   status:
     standard: standard
     adopted: adopted
@@ -54,6 +57,8 @@ ja:
   edit_on_github: この頁を GitHub で直す
   switch_to: English
   japanese_badge: 日本語
+  byte_map_link: 例で見る ↗
+  byte_map_title: この用語の例を warc-byte-map で開く
   status:
     standard: 規格
     adopted: 採用

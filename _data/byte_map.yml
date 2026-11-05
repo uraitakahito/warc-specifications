@@ -1,0 +1,18 @@
+# 頁の用語の見出しの横に、warc-byte-map で例を開く link を出すための表。
+# _layouts/default.html の終わりの script が、この表に在る頁でだけ、見出しに link を足す。
+# 英語の頁の本文（index.md）は上流のまま変えない（README の決まり）。
+#
+# 鍵は頁の URL と見出しの id。値は warc-byte-map の hash の rec（record の始めの位置）と part（部分）。
+# hash の書き方は https://github.com/uraitakahito/warc-byte-map の src/viewer/hash.ts を見る。
+viewer: https://uraitakahito.github.io/warc-byte-map/
+# 例は IIPC の primer の hello-world.warc（この site の primers/ に在る。response の record は 1260 から）
+example: https://uraitakahito.github.io/warc-specifications/primers/web-archive-formats/hello-world.warc
+pages:
+  /specifications/warc-format/warc-1.1-annotated/:
+    warc-record: { rec: 1260, part: record }
+    warc-record-content-block: { rec: 1260, part: block }
+    warc-record-payload: { rec: 1260, part: payload }
+    warc-record-header: { rec: 1260, part: header }
+    warc-named-fields: { rec: 1260, part: line.0 }
+    warc-block-digest: { rec: 1260, part: block }
+    warc-payload-digest: { rec: 1260, part: payload }
