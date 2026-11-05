@@ -207,12 +207,12 @@ title="{{ t.edit_on_github }}"><span class="glyphicon glyphicon-pencil"></span><
       // 頁の本文（Markdown）は変えずに、建てた頁の見出しに後から足す
       (function () {
         var viewer = {{ site.data.byte_map.viewer | jsonify }};
-        var example = {{ site.data.byte_map.example | jsonify }};
+        var sources = {{ site.data.byte_map.sources | jsonify }};
         var links = {{ byte_map | jsonify }};
         Object.keys(links).forEach(function (id) {
           var heading = document.getElementById(id);
           if (!heading) return;
-          var params = new URLSearchParams({ src: example, rec: String(links[id].rec), part: links[id].part, lang: {{ lang | jsonify }} });
+          var params = new URLSearchParams({ src: sources[links[id].src], rec: String(links[id].rec), part: links[id].part, lang: {{ lang | jsonify }} });
           var a = document.createElement("a");
           a.className = "byte-map-link";
           a.href = viewer + "#" + params.toString();

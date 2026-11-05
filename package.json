@@ -11,7 +11,8 @@
     "node": ">=24"
   },
   "scripts": {
-    "test": "node --test scripts/check-ja.test.mjs",
-    "check": "node scripts/check-ja.mjs _site"
+    "test": "node --test scripts/check-ja.test.mjs scripts/check-byte-map.test.mjs",
+    "check": "node scripts/check-ja.mjs _site",
+    "check:byte-map": "node scripts/check-byte-map.mjs _site"
   }
 }
