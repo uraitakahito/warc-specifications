@@ -28,7 +28,7 @@ front matter は、英語の頁と同じ鍵（`status`・`version`・`version-of
 
 | 鍵 | 中身 |
 |---|---|
-| `lang` | `ja`。メニューと一覧は英語の頁だけを並べ、訳のある頁に「日本語」の札を付ける |
+| `lang` | `ja`。メニューと一覧は英語の頁だけを並べ、訳のある頁に「日本語」のバッジを付ける |
 | `translation_of` | 元の英語の頁の URL（例 `/specifications/warc-format/warc-1.1/`）。英日の切り替えのリンクはこれで結ぶ |
 | `source_commit` | 訳したときの英語の頁の commit。英語の頁がこの後で変わると、検査が「古い」と知らせる |
 
